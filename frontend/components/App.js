@@ -81,26 +81,15 @@ export default function App() {
     // which is then concatenated at the end of the `members` state
     setMembers([...members, newMember]);
   };
-  const editExistingMember = () => {
+
+  const editExistingMember = (id) => {
     // ✨ This takes the values of the form and replaces the data of the
     // member in the `members` state whose id matches the `editing` state
-    setMembers(prevMembers => prevMembers.map(prevMembers => {
-      if (prevMembers.id === newMember.id){
-      const id = members.map((mem) => {
-        return mem.id 
-       })
-       return ({...members, 
-        [id]: newMember})
-      }
-      return prevMembers
-      }))
-
-      
-    
-    console.log('members', members, 
-    'editing', editing, 
-    'newmember', newMember, 
-    'id', newMember.id)
+    const aaa = members.map((mem) => {
+      console.log(newMember)
+      return mem.id === id ? newMember : mem
+    })
+    setMembers(aaa)
   };
 
   const resetState = () => {
@@ -119,7 +108,7 @@ export default function App() {
       submitNewMember();
     }
     if (editing != null) {
-      editExistingMember();
+      editExistingMember(newMember.id);
     }
     resetState();
     setEditing(null);
@@ -180,7 +169,7 @@ export default function App() {
           </div>
 
           <div>
-            <input type="submit" onSubmit={(() => editExistingMember())} />
+            <input type="submit" />
           </div>
         </form>
       </div>
