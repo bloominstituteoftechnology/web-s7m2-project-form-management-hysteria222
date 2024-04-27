@@ -23,6 +23,12 @@ I enjoy bringing creativity and aesthetics to the digital world.",
   },
 ];
 
+const intitialValues = {
+  fname: "",
+  lname: "",
+  bio: "",
+}
+
 export default function App() {
   const [members, setMembers] = useState(teamMembers);
   const [editing, setEditing] = useState(null);
@@ -78,11 +84,19 @@ export default function App() {
   const editExistingMember = () => {
     // ✨ This takes the values of the form and replaces the data of the
     // member in the `members` state whose id matches the `editing` state
-    if (editing === newMember.id) {
-      setMembers({...members, 
-      [id]: newMember
-      })
-    }
+    setMembers(prevMembers => prevMembers.map(prevMembers => {
+      if (prevMembers.id === newMember.id){
+      const id = members.map((mem) => {
+        return mem.id 
+       })
+       return ({...members, 
+        [id]: newMember})
+      }
+      return prevMembers
+      }))
+
+      
+    
     console.log('members', members, 
     'editing', editing, 
     'newmember', newMember, 
@@ -90,12 +104,7 @@ export default function App() {
   };
 
   const resetState = () => {
-    setNewMember({
-      id: getId(),
-      fname: "",
-      lname: "",
-      bio: "",
-    });
+    setNewMember(intitialValues);
   };
 
   const onSubmit = (evt) => {
@@ -122,8 +131,8 @@ export default function App() {
       <div id="membersList">
         <h2>Team Members</h2>
         <div>
-          {members.map((mem) => (
-            <div key={mem.id} className="member">
+          {members.map((mem, index) => (
+            <div key={index} className="member">
               <div>
                 <h4>
                   {mem.fname} {mem.lname}
@@ -171,7 +180,7 @@ export default function App() {
           </div>
 
           <div>
-            <input type="submit" onSubmit={editExistingMember()} />
+            <input type="submit" onSubmit={(() => editExistingMember())} />
           </div>
         </form>
       </div>
